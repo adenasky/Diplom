@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+
+  java-app:
+    build: ./image
+    image: java-app:1.0
+    ports:
+          - '9999:9999'
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=pass
