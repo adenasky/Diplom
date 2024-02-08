@@ -14,9 +14,12 @@ public class DataGenerator {
     private DataGenerator() {
     }
 
+    /** specific test card numbers */
     private final static String approvedCardNumber = "1111222233334444";
     private final static String declinedCardNumber = "5555666677778888";
 
+
+    /** generate data */
     public static String generateCardNumber() {
         return faker.numerify("#### #### #### ####");
     }
@@ -61,7 +64,7 @@ public class DataGenerator {
         return "DECLINED";
     }
 
-    //Invalid data
+    /** generate invalid data */
     public static String generateInvalidCardNumberMoreThanMaxDigit() {
         String digit = String.valueOf(new Random().nextInt(10));
         return approvedCardNumber + digit;
@@ -94,7 +97,7 @@ public class DataGenerator {
         return "";
     }
 
-    //Generate Cards
+    /** Generate Cards */
     public static Card generateApprovedCard() {
         return new Card(approvedCardNumber,
                 generateCardholderName(),
@@ -111,6 +114,62 @@ public class DataGenerator {
                 generateSecurityCode());
     }
 
+    public static Card generateWithEmptyCardNumber() {
+        return new Card(generateEmptyField(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateWithEmptyExpirationMonth() {
+        return new Card(approvedCardNumber,
+                generateCardholderName(),
+                generateEmptyField(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateWithEmptyExpirationYear() {
+        return new Card(approvedCardNumber,
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateEmptyField(),
+                generateSecurityCode());
+    }
+
+    public static Card generateWithEmptyCardholderName() {
+        return new Card(approvedCardNumber,
+                generateEmptyField(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateWithEmptySecurityCode() {
+        return new Card(approvedCardNumber,
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateEmptyField());
+    }
+
+    public static Card generateCardNumberMoreThanMaxDigit() {
+        return new Card(generateInvalidCardNumberMoreThanMaxDigit(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateCardNumberLessThanMaxDigit() {
+        return new Card(generateInvalidCardNumberLessThanMinDigit(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
     @Value
     public static class Card {
         String cardNumber;
@@ -118,5 +177,10 @@ public class DataGenerator {
         String expirationMonth;
         String expirationYear;
         String securityCode;
+    }
+
+    @Value
+    public static class CardStatus {
+        String status;
     }
 }

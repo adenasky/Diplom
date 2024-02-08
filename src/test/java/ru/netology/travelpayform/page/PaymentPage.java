@@ -3,11 +3,10 @@ package ru.netology.travelpayform.page;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-
+import java.time.Duration;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import java.time.Duration;
 
 
 public class PaymentPage {
@@ -30,5 +29,13 @@ public class PaymentPage {
 
         public void notificationStatus(String expectedText) {
                 notification.shouldBe(Condition.visible, Duration.ofSeconds(15)).shouldHave(Condition.exactText(expectedText));
+        }
+
+        public void debitHeading(String expectedText) {
+                headingForDebit.shouldBe(Condition.visible).shouldHave(Condition.exactText(expectedText));
+        }
+
+        public void creditHeading(String expectedText) {
+                headingForCredit.shouldBe(Condition.visible).shouldHave(Condition.exactText(expectedText));
         }
 }

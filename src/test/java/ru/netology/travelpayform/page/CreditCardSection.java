@@ -1,9 +1,8 @@
 package ru.netology.travelpayform.page;
 
-import com.codeborne.selenide.SelenideElement;
 import ru.netology.travelpayform.data.DataGenerator;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.*;
+import com.codeborne.selenide.SelenideElement;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -28,5 +27,21 @@ public class CreditCardSection {
         fieldCardholderName.setValue(card.getCardholderName());
         fieldSecurityCode.setValue(card.getSecurityCode());
         buttonContinue.click();
+    }
+
+    public void fieldErrorCardNumberNotification(String expectedText) {
+        fieldErrorCardNumber.shouldHave(exactText(expectedText)).shouldBe(visible);
+    }
+    public void fieldErrorExpirationMonthNotification(String expectedText) {
+        fieldErrorExpirationMonth.shouldHave(exactText(expectedText)).shouldBe(visible);
+    }
+    public void fieldErrorExpirationYearNotification(String expectedText) {
+        fieldErrorExpirationYear.shouldHave(exactText(expectedText)).shouldBe(visible);
+    }
+    public void fieldErrorCardholderNameNotification(String expectedText) {
+        fieldErrorCardholderName.shouldHave(exactText(expectedText)).shouldBe(visible);
+    }
+    public void fieldErrorSecurityCodeNotification(String expectedText) {
+        fieldErrorSecurityCode.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
 }
