@@ -45,7 +45,7 @@ public class DataGenerator {
     }
 
     public static String generateValidExpirationYear() {
-        int yearsToCurrent = new Random().nextInt(10);
+        int yearsToCurrent = new Random().nextInt(5);
         return LocalDate.now().plusYears(yearsToCurrent).format(DateTimeFormatter.ofPattern("yy"));
     }
 
@@ -57,34 +57,14 @@ public class DataGenerator {
         return faker.numerify("###");
     }
 
-    public static String statusCardApproved() {
-        return "APPROVED";
-    }
-    public static String statusCardDeclined() {
-        return "DECLINED";
-    }
 
     /** generate invalid data */
-    public static String generateInvalidCardNumberMoreThanMaxDigit() {
-        String digit = String.valueOf(new Random().nextInt(10));
-        return approvedCardNumber + digit;
-    }
-
-    public static String generateInvalidCardNumberLessThanMinDigit() {
-        return approvedCardNumber.substring(0, approvedCardNumber.length() - 1);
-    }
-
-    public static String generateInvalidPreviousExpirationYear() {
-        int yearsToCurrent = 1 + new Random().nextInt(30);
-        return LocalDate.now().minusYears(yearsToCurrent).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
     public static char generateRandomCyrillicLetter() {
         String cyrillicLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
         return cyrillicLetters.charAt(new Random().nextInt(cyrillicLetters.length()));
     }
 
-    public static char generateRandomSymbol() {
+    public static char generateRandomSpecialCharacter() {
         String symbols = "!@#$%^&*()_+-=[]{};':\",.<>/?\\|";
         return symbols.charAt(new Random().nextInt(symbols.length()));
     }
@@ -96,6 +76,36 @@ public class DataGenerator {
     public static String generateEmptyField() {
         return "";
     }
+
+    public static String generateCardNumberMoreThanMaxDigit() {
+        return approvedCardNumber + generateRandomDigit();
+    }
+
+    public static String generateCardNumberLessThanMaxDigit() {
+        return approvedCardNumber.substring(0, approvedCardNumber.length() - 1);
+    }
+
+    public static String generateCardNumberWithLetters() {
+        return approvedCardNumber.substring(0, approvedCardNumber.length() - 1) + generateRandomCyrillicLetter();
+    }
+
+    public static String generateCardNumberWithSpecialCharacters() {
+        return approvedCardNumber.substring(0, approvedCardNumber.length() - 1) + generateRandomSpecialCharacter();
+    }
+
+    public static String generateExpirationMonthMoreThanMaxDigit() {
+        return generateValidExpirationMonth() + generateRandomDigit();
+    }
+
+    public static String generateExpirationMonthLessThanMaxDigit() {
+        return generateValidExpirationMonth().substring(0, generateValidExpirationMonth().length() - 1);
+    }
+
+    public static String generatePreviousExpirationYear() {
+        int yearsToCurrent = 1 + new Random().nextInt(30);
+        return LocalDate.now().minusYears(yearsToCurrent).format(DateTimeFormatter.ofPattern("yy"));
+    }
+
 
     /** Generate Cards */
     public static Card generateApprovedCard() {
@@ -154,18 +164,50 @@ public class DataGenerator {
                 generateEmptyField());
     }
 
-    public static Card generateCardNumberMoreThanMaxDigit() {
-        return new Card(generateInvalidCardNumberMoreThanMaxDigit(),
+    public static Card generateInvalidCardNumberMoreThanMaxDigit() {
+        return new Card(generateCardNumberMoreThanMaxDigit(),
                 generateCardholderName(),
                 generateValidExpirationMonth(),
                 generateValidExpirationYear(),
                 generateSecurityCode());
     }
 
-    public static Card generateCardNumberLessThanMaxDigit() {
-        return new Card(generateInvalidCardNumberLessThanMinDigit(),
+    public static Card generateInvalidCardNumberLessThanMaxDigit() {
+        return new Card(generateCardNumberLessThanMaxDigit(),
                 generateCardholderName(),
                 generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateInvalidCardNumberWithLetters() {
+        return new Card(generateCardNumberWithLetters(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateInvalidCardNumberWithSpecialCharacters() {
+        return new Card(generateCardNumberWithSpecialCharacters(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateInvalidMonthMoreThanMaxDigit() {
+        return new Card(approvedCardNumber,
+                generateCardholderName(),
+                generateExpirationMonthMoreThanMaxDigit(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
+    public static Card generateInvalidMonthLessThanMaxDigit() {
+        return new Card(approvedCardNumber,
+                generateCardholderName(),
+                generateExpirationMonthLessThanMaxDigit(),
                 generateValidExpirationYear(),
                 generateSecurityCode());
     }

@@ -9,7 +9,7 @@ import ru.netology.travelpayform.data.SQLHelper;
 import ru.netology.travelpayform.page.DebitCardSection;
 import ru.netology.travelpayform.page.PaymentPage;
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PaymentFormTest {
     PaymentPage paymentPage;
@@ -52,7 +52,7 @@ public class PaymentFormTest {
         DataGenerator.Card approvedCard = DataGenerator.generateApprovedCard();
         paymentPage.debitForm().setDebitCard(approvedCard);
         paymentPage.notificationStatus("Операция одобрена Банком.");
-        assertEquals("APPROVED", SQLHelper.getDebitCardStatus());
+        assertEquals("APPROVED", SQLHelper.getDebitCardStatus().getStatus());
     }
 
     @Test
@@ -101,23 +101,47 @@ public class PaymentFormTest {
         DataGenerator.Card declinedCard = DataGenerator.generateDeclinedCard();
         paymentPage.debitForm().setDebitCard(declinedCard);
         paymentPage.notificationStatus("Ошибка! Банк отказал в проведении операции.");
+        assertEquals("DECLINED", SQLHelper.getDebitCardStatus().getStatus());
     }
 
 //    @Test
 //    @DisplayName("FORM-N-07 Отправка формы с большим количеством допустимых символов в номере карты")
-//    void shouldNotSetMoreThanMaxDigit() {
-//        DataGenerator.Card cardNumberMoreThanMaxDigit = DataGenerator.generateCardNumberMoreThanMaxDigit();
+//    void shouldNotSetMoreThanMaxDigitCardNumber() {
+//        DataGenerator.Card cardNumberMoreThanMaxDigit = DataGenerator.generateInvalidCardNumberMoreThanMaxDigit();
 //        paymentPage.debitForm().setDebitCard(cardNumberMoreThanMaxDigit);
-//        debitCardSection.fieldErrorCardNumberNotification("Неверный формат");
+//        assertTrue(enteredCardNumber.length() = 16);
 //    }
 
     @Test
     @DisplayName("FORM-N-08 Отправка формы с меньшим количеством допустимых символов в номере карты")
-    void shouldNotSetLessThanMaxDigit() {
-        DataGenerator.Card cardNumberLessThanMaxDigit = DataGenerator.generateCardNumberLessThanMaxDigit();
+    void shouldNotSetLessThanMaxDigitCardNumber() {
+        DataGenerator.Card cardNumberLessThanMaxDigit = DataGenerator.generateInvalidCardNumberLessThanMaxDigit();
         paymentPage.debitForm().setDebitCard(cardNumberLessThanMaxDigit);
         debitCardSection.fieldErrorCardNumberNotification("Неверный формат");
     }
 
+    @Test
+    @DisplayName("FORM-N-09 Отправка формы с невалидными данными, буквы в номере карты")
+    void shouldNotSetLettersInCardNumber() {
+        DataGenerator.Card cardNumberWithLetters = DataGenerator.generateInvalidCardNumberWithLetters();
+        paymentPage.debitForm().setDebitCard(cardNumberWithLetters);
+        debitCardSection.fieldErrorCardNumberNotification("Неверный формат");
+    }
+
+    @Test
+    @DisplayName("FORM-N-10 Отправка формы с невалидными данными, спецсимволы в номере карты")
+    void shouldNotSetSpecialCharactersInCardNumber() {
+        DataGenerator.Card cardNumberWithSpecialCharacters = DataGenerator.generateInvalidCardNumberWithSpecialCharacters();
+        paymentPage.debitForm().setDebitCard(cardNumberWithSpecialCharacters);
+        debitCardSection.fieldErrorCardNumberNotification("Неверный формат");
+    }
+
+//    @Test
+//    @DisplayName("FORM-N-11 Отправка формы с большим количеством допустимых символов в месяце")
+//    void shouldNotSetMoreThanMaxDigitMonth() {
+//        DataGenerator.Card monthMoreThanMaxDigit = DataGenerator.generateExpirationMonthMoreThanMaxDigit();
+//        paymentPage.debitForm().setDebitCard(monthMoreThanMaxDigit);
+//        assertTrue(enteredCardNumber.length() = 2);
+//    }
 
 }

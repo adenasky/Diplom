@@ -13,12 +13,12 @@ public class SQLHelper {
     }
 
     private static Connection getConn() throws SQLException {
-        return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/app", "app", "pass");
     }
 
     @SneakyThrows
     public static DataGenerator.CardStatus getDebitCardStatus() {
-        var codeSQL = "SELECT status FROM credit_request_entity";
+        var codeSQL = "SELECT status FROM payment_entity";
         var conn = getConn();
         var status = QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
         return new DataGenerator.CardStatus(status);
