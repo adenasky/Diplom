@@ -2,6 +2,7 @@ package ru.netology.travelpayform.page;
 
 import ru.netology.travelpayform.data.DataGenerator;
 import com.codeborne.selenide.SelenideElement;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -32,15 +33,19 @@ public class CreditCardSection {
     public void fieldErrorCardNumberNotification(String expectedText) {
         fieldErrorCardNumber.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
+
     public void fieldErrorExpirationMonthNotification(String expectedText) {
         fieldErrorExpirationMonth.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
+
     public void fieldErrorExpirationYearNotification(String expectedText) {
         fieldErrorExpirationYear.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
+
     public void fieldErrorCardholderNameNotification(String expectedText) {
         fieldErrorCardholderName.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
+
     public void fieldErrorSecurityCodeNotification(String expectedText) {
         fieldErrorSecurityCode.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
