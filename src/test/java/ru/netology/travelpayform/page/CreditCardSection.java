@@ -22,11 +22,11 @@ public class CreditCardSection {
     private SelenideElement fieldErrorSecurityCode = $$(".form-field .input_invalid").findBy(text("CVC/CVV")).$(".input__sub");
 
     public void setCreditCard(DataGenerator.Card card) {
-        fieldCardNumber.setValue(card.getCardNumber());
-        fieldExpirationMonth.setValue(card.getExpirationMonth());
-        fieldExpirationYear.setValue(card.getExpirationYear());
-        fieldCardholderName.setValue(card.getCardholderName());
-        fieldSecurityCode.setValue(card.getSecurityCode());
+        fieldCardNumber.setValue(card.getNumber());
+        fieldExpirationMonth.setValue(card.getMonth());
+        fieldExpirationYear.setValue(card.getYear());
+        fieldCardholderName.setValue(card.getHolder());
+        fieldSecurityCode.setValue(card.getCvc());
         buttonContinue.click();
     }
 
@@ -49,4 +49,21 @@ public class CreditCardSection {
     public void fieldErrorSecurityCodeNotification(String expectedText) {
         fieldErrorSecurityCode.shouldHave(exactText(expectedText)).shouldBe(visible);
     }
+
+    public String getFieldCreditCardNumberValue() {
+        return fieldCardNumber.getValue();
+    }
+
+    public String getFieldCreditExpirationMonthValue() {
+        return fieldExpirationMonth.getValue();
+    }
+
+    public String getFieldCreditExpirationYearValue() {
+        return fieldExpirationYear.getValue();
+    }
+
+    public String getFieldCreditSecurityCodeValue() {
+        return fieldSecurityCode.getValue();
+    }
 }
+

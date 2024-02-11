@@ -18,14 +18,14 @@ public class DataGenerator {
     /**
      * specific test card numbers
      */
-    private final static String approvedCardNumber = "1111222233334444";
-    private final static String declinedCardNumber = "5555666677778888";
+    private final static String approvedCardNumber = "1111 2222 3333 4444";
+    private final static String declinedCardNumber = "5555 6666 7777 8888";
 
 
     /**
      * generate data
      */
-    public static String generateCardNumber() {
+    public static String generateRandomCardNumber() {
         return faker.numerify("#### #### #### ####");
     }
 
@@ -144,7 +144,7 @@ public class DataGenerator {
     }
 
     public static String generatePreviousExpirationYear() {
-        int yearsToCurrent = 1 + new Random().nextInt(30);
+        int yearsToCurrent = 1 + new Random().nextInt(20);
         return LocalDate.now().minusYears(yearsToCurrent).format(DateTimeFormatter.ofPattern("yy"));
     }
 
@@ -447,13 +447,21 @@ public class DataGenerator {
                 generateThreeZero());
     }
 
+    public static Card generateInvalidCardNumberRandom() {
+        return new Card(generateRandomCardNumber(),
+                generateCardholderName(),
+                generateValidExpirationMonth(),
+                generateValidExpirationYear(),
+                generateSecurityCode());
+    }
+
     @Value
     public static class Card {
-        String cardNumber;
-        String cardholderName;
-        String expirationMonth;
-        String expirationYear;
-        String securityCode;
+        String number;
+        String holder;
+        String month;
+        String year;
+        String cvc;
     }
 
     @Value

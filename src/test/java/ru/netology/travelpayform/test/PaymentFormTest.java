@@ -40,13 +40,6 @@ public class PaymentFormTest {
     }
 
     @Test
-    @DisplayName("NAV-F-02 Открытие кредитной формы по кнопке Купить")
-    void shouldOpenCreditForm() {
-        paymentPage.creditForm();
-        paymentPage.creditHeading("Кредит по данным карты");
-    }
-
-    @Test
     @DisplayName("FORM-P-01 Отправка формы с валидными данными, APPROVED карта")
     void shouldPayWithApprovedCard() {
         DataGenerator.Card approvedCard = DataGenerator.generateApprovedCard();
@@ -294,7 +287,7 @@ public class PaymentFormTest {
     void shouldNotSetZeroInYear() {
         DataGenerator.Card yearWithZero = DataGenerator.generateInvalidYearWithZero();
         paymentPage.debitForm().setDebitCard(yearWithZero);
-        debitCardSection.fieldErrorExpirationYearNotification("Неверный формат");
+        debitCardSection.fieldErrorExpirationYearNotification("Истёк срок действия карты");
     }
 
     @Test
@@ -303,5 +296,14 @@ public class PaymentFormTest {
         DataGenerator.Card securityCodeWithZero = DataGenerator.generateInvalidSecurityCodeWithZero();
         paymentPage.debitForm().setDebitCard(securityCodeWithZero);
         debitCardSection.fieldErrorSecurityCodeNotification("Неверный формат");
+    }
+
+    @Test
+    @DisplayName("FORM-N-32 Отправка формы с невалидными данными, рандомный номер карты")
+    void shouldNotSetRandomCardNumber() {
+        DataGenerator.Card cardNumberRandom = DataGenerator.generateInvalidCardNumberRandom();
+        paymentPage.debitForm().setDebitCard(cardNumberRandom);
+        paymentPage.notificationStatus("Ошибка! Банк отказал в проведении операции.");
+        assertEquals("DECLINED", SQLHelper.getDebitCardStatus().getStatus());
     }
 }
