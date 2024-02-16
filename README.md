@@ -8,6 +8,7 @@
 1. Клонировать проект из Git репозитория командой: ```git clone https://github.com/adenasky/Diplom.git```
 2. Открыть проект в IntelliJ IDEA
 3. Запустить Docker контейнер командой: ```docker-compose up --build```
+4. Запустить приложение ```aqa-shop.jar``` командой:```java -jar ./image/aqa-shop.jar```
 
 ## 3. Запуск тестов
 1. Запустить автотесты командой ```.\gradlew clean test```
