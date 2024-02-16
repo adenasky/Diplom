@@ -9,7 +9,7 @@ import ru.netology.travelpayform.page.CreditCardSection;
 import ru.netology.travelpayform.page.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class CreditFormTest {
@@ -46,7 +46,7 @@ public class CreditFormTest {
         DataGenerator.Card approvedCard = DataGenerator.generateApprovedCard();
         paymentPage.creditForm().setCreditCard(approvedCard);
         paymentPage.notificationStatus("Операция одобрена Банком.");
-        assertEquals("APPROVED", SQLHelper.getCreditCardStatus().getStatus());
+        assertEquals("APPROVED", SQLHelper.getCreditCardStatus());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CreditFormTest {
         DataGenerator.Card declinedCard = DataGenerator.generateDeclinedCard();
         paymentPage.creditForm().setCreditCard(declinedCard);
         paymentPage.notificationStatus("Ошибка! Банк отказал в проведении операции.");
-        assertEquals("DECLINED", SQLHelper.getCreditCardStatus().getStatus());
+        assertEquals("DECLINED", SQLHelper.getCreditCardStatus());
     }
 
     @Test
@@ -272,7 +272,7 @@ public class CreditFormTest {
         DataGenerator.Card cardNumberWithZero = DataGenerator.generateInvalidCardNumberWithZero();
         paymentPage.creditForm().setCreditCard(cardNumberWithZero);
         paymentPage.notificationStatus("Ошибка! Банк отказал в проведении операции.");
-        assertEquals("DECLINED", SQLHelper.getCreditCardStatus().getStatus());
+        assertEquals("DECLINED", SQLHelper.getCreditCardStatus());
     }
 
     @Test

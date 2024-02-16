@@ -463,9 +463,4 @@ public class DataGenerator {
         String year;
         String cvc;
     }
-
-    @Value
-    public static class CardStatus {
-        String status;
-    }
 }

@@ -17,19 +17,17 @@ public class SQLHelper {
     }
 
     @SneakyThrows
-    public static DataGenerator.CardStatus getDebitCardStatus() {
+    public static String getDebitCardStatus() {
         var codeSQL = "SELECT status FROM payment_entity";
         var conn = getConn();
-        var status = QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
-        return new DataGenerator.CardStatus(status);
+        return QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
     }
 
     @SneakyThrows
-    public static DataGenerator.CardStatus getCreditCardStatus() {
+    public static String getCreditCardStatus() {
         var codeSQL = "SELECT status FROM credit_request_entity";
         var conn = getConn();
-        var status = QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
-        return new DataGenerator.CardStatus(status);
+        return QUERY_RUNNER.query(conn, codeSQL, new ScalarHandler<String>());
     }
 
     @SneakyThrows
